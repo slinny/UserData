@@ -23,7 +23,7 @@ struct UserListView: View {
     }
     
     func fetchData() async {
-        viewModel.fetchUsers()
+        await viewModel.fetchUsers()
 
         let batchSize = 10
         let totalObjects = viewModel.users.count
