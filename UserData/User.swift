@@ -5,13 +5,13 @@ import SwiftData
 class User: Codable, Identifiable {
     
     @Attribute(.unique) var id: Int
-    let name: String
-    let username: String
-    let email: String
-    @Relationship(deleteRule: .cascade) let address: Address
-    let phone: String
-    let website: String
-    @Relationship(deleteRule: .cascade) let company: Company
+    var name: String
+    var username: String
+    var email: String
+    @Relationship(deleteRule: .cascade) var address: Address
+    var phone: String
+    var website: String
+    @Relationship(deleteRule: .cascade) var company: Company
     
     init(id: Int, name: String, username: String, email: String, address: Address, phone: String, website: String, company: Company) {
         self.id = id
@@ -62,11 +62,11 @@ class User: Codable, Identifiable {
 
 @Model
 class Address: Codable {
-    let street: String
-    let suite: String
-    let city: String
-    let zipcode: String
-    @Relationship(deleteRule: .cascade) let geo: Geo
+    var street: String
+    var suite: String
+    var city: String
+    var zipcode: String
+    @Relationship(deleteRule: .cascade) var geo: Geo
     
     init(street: String, suite: String, city: String, zipcode: String, geo: Geo) {
         self.street = street
@@ -105,8 +105,8 @@ class Address: Codable {
 
 @Model
 class Geo: Codable {
-    let lat: String
-    let lng: String
+    var lat: String
+    var lng: String
     
     init(lat: String, lng: String) {
         self.lat = lat
@@ -133,9 +133,9 @@ class Geo: Codable {
 
 @Model
 class Company: Codable {
-    let name: String
-    let catchPhrase: String
-    let bs: String
+    var name: String
+    var catchPhrase: String
+    var bs: String
     
     init(name: String, catchPhrase: String, bs: String) {
         self.name = name

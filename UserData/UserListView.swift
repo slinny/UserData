@@ -10,15 +10,24 @@ struct UserListView: View {
     var body: some View {
         
         NavigationStack {
-            List(users) { user in
-                NavigationLink(destination: UserDetailView(user: user)) {
-                    Text(user.name)
+            VStack {
+                    
+                List(viewModel.users) { user in
+                    NavigationLink(destination: UserDetailView(user: user)) {
+                        Text(user.name)
+                    }
                 }
+                .navigationBarTitle("Users")
             }
-            .navigationBarTitle("Users")
         }
         .task {
             await fetchData()
+        }
+        .alert("Error", isPresented: Binding(
+            get: { viewModel.error != nil },
+            set: { _ in viewModel.error = nil }
+        )) {
+            Text(viewModel.error?.localizedDescription ?? "")
         }
     }
     
@@ -40,15 +49,10 @@ struct UserListView: View {
             }
         }
     }
+        
+        
 }
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: User.self, configurations: config)
-        return UserListView()
-            .modelContainer(container)
-    } catch {
-        fatalError("Failed to create model container.")
-    }
+    UserListView()
 }

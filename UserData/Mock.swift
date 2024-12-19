@@ -248,8 +248,7 @@ class Mock {
     
     func decode() {
         do {
-            let decoder = JSONDecoder()
-            mockUsers = try decoder.decode([User].self, from: jsonData)
+            mockUsers = try JSONDecoder().decode([User].self, from: jsonData)
         } catch {
             print("Error decoding JSON: \(error)")
         }

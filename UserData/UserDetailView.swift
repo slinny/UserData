@@ -38,3 +38,18 @@ struct UserDetailView: View {
         .listStyle(GroupedListStyle())
     }
 }
+
+#Preview {
+    UserDetailView(user: Mock.shared.mockUsers[0])
+}
+
+//#Preview {
+//    do {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//        let container = try ModelContainer(for: User.self, configurations: config)
+//        return UserDetailView(user: Mock.shared.mockUsers[0])
+//            .modelContainer(container)
+//    } catch {
+//        fatalError("Failed to create model container.")
+//    }
+//}
