@@ -3,15 +3,13 @@ import SwiftData
 
 struct UserListView: View {
     
-    @StateObject private var viewModel = UserData()
     @Environment(\.modelContext) private var modelContext
+    @StateObject private var viewModel = UserData() // Initialize without modelContext for now
     @Query(sort: [SortDescriptor(\User.id)]) private var users: [User]
     
     var body: some View {
-        
         NavigationStack {
             VStack {
-                    
                 List(viewModel.users) { user in
                     NavigationLink(destination: UserDetailView(user: user)) {
                         Text(user.name)
@@ -21,6 +19,7 @@ struct UserListView: View {
             }
         }
         .task {
+            viewModel.setModelContext(modelContext)
             await fetchData()
         }
         .alert("Error", isPresented: Binding(
@@ -32,25 +31,8 @@ struct UserListView: View {
     }
     
     func fetchData() async {
-        await viewModel.fetchUsers()
-
-        let batchSize = 10
-        let totalObjects = viewModel.users.count
-
-        for i in 0..<(totalObjects / batchSize) {
-            for j in 0..<batchSize {
-                let user = viewModel.users[i * batchSize + j]
-                modelContext.insert(user)
-            }
-            do {
-                try modelContext.save()
-            } catch {
-                print("Error Saving Data into Container")
-            }
-        }
+        await viewModel.fetchAndSaveUsers()
     }
-        
-        
 }
 
 #Preview {
